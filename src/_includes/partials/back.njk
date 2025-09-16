@@ -1,0 +1,13 @@
+<div class="back-nav">
+  <a href="javascript:history.back()" class="back-btn" onclick="fallbackNav(event)">← Back</a>
+</div>
+
+<script>
+function fallbackNav(event) {
+  // If history is empty or back would go outside the site, go to portfolio instead
+  if (window.history.length <= 1 || document.referrer === '') {
+    event.preventDefault();
+    window.location.href = '/portfolio/';
+  }
+}
+</script>

@@ -1,0 +1,38 @@
+---
+title: Work
+layout: layouts/base.njk
+hero:
+  image: /images/hero-banner.jpg
+---
+<section class="gallery">
+  <div class="grid-3">
+    {% if collections.artworks and collections.artworks.length > 0 %}
+      {% for a in collections.artworks %}
+      <article class="card">
+        <a href="{{ a.url }}" class="thumb">
+          {% if a.data.image %}<img src="{{ a.data.image }}" alt="">{% endif %}
+        </a>
+      </article>
+      {% endfor %}
+    {% else %}
+      {# Default placeholder content when no artworks exist #}
+      <article class="card">
+        <a href="#" class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Artwork+1" alt="">
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Artwork+2" alt="">
+        </a>
+      </article>
+
+      <article class="card">
+        <a href="#" class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Artwork+3" alt="">
+        </a>
+      </article>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title or 'Portfolio' }}</title>
+  <meta name="description" content="{{ description or (site.artist ~ ' art portfolio and blog') }}">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    /* Hide the leftmost gallery card */
+    .gallery-3 > figure:first-of-type { display: none !important; }
+
+    /* Hide ALL text under gallery thumbnails */
+    .gallery .card .meta,
+    .gallery .card .meta *,
+    .gallery .card h3,
+    .gallery .card .muted,
+    .gallery .card .price { display: none !important; }
+
+    /* tighten spacing so it's just the image */
+    .gallery .card { padding-bottom: 0 !important; }
+    .gallery .card .thumb { margin: 0 !important; }
+  </style>
+</head>
+<body>
+  <aside class="social">
+    {% if site.social.pinterest %}<a href="{{ site.social.pinterest }}" aria-label="Pinterest" target="_blank" rel="noopener">{% include "svg/pinterest.svg" %}</a>{% endif %}
+    {% if site.social.facebook %}<a href="{{ site.social.facebook }}" aria-label="Facebook" target="_blank" rel="noopener">{% include "svg/facebook.svg" %}</a>{% endif %}
+    {% if site.social.instagram %}<a href="{{ site.social.instagram }}" aria-label="Instagram" target="_blank" rel="noopener">{% include "svg/instagram.svg" %}</a>{% endif %}
+  </aside>
+
+  <header class="topbar">
+    <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">☰</button>
+    <nav id="site-nav" class="nav">
+      <a href="/">Home</a>
+      <span class="sep">|</span>
+      <a href="/about/">About</a>
+      <span class="sep">|</span>
+      <a href="/portfolio/">Portfolio</a>
+      <span class="sep">|</span>
+      <a href="/prints/">Prints for Sale</a>
+      <span class="sep">|</span>
+      <a href="/portfolio/originals/">Original Paintings</a>
+    </nav>
+  </header>
+
+  {% if hero %}
+  <section class="hero" role="banner">
+    <img src="{{ hero.image }}" alt="{{ site.artist }} banner" loading="eager" decoding="async" sizes="100vw">
+  </section>
+  {% endif %}
+
+  <main class="wrap">
+    {{ content | safe }}
+  </main>
+
+  <footer class="wrap site-footer">
+    <p>© 2025 {{ site.artist }}</p>
+    <p><a href="/admin/">Log In</a></p>
+  </footer>
+  <script src="/scripts.js" defer></script>
+  <script>
+    document.querySelectorAll('.gallery-3 img').forEach(img=>{
+      img.onerror = () => img.closest('figure').style.display = 'none';
+    });
+  </script>
+</body>
+</html>

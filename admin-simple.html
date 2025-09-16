@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emma Gardner - Simple Admin</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #333; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }
+        .form-group textarea { height: 120px; resize: vertical; }
+        .btn { background: #3498db; color: white; border: none; padding: 12px 24px; border-radius: 4px; cursor: pointer; font-size: 16px; margin-right: 10px; }
+        .btn:hover { background: #2980b9; }
+        .btn-danger { background: #e74c3c; }
+        .tabs { background: white; border-radius: 8px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .tab-buttons { display: flex; background: #f8f9fa; }
+        .tab-button { flex: 1; padding: 15px; border: none; background: transparent; cursor: pointer; font-size: 16px; border-bottom: 3px solid transparent; }
+        .tab-button.active { background: white; border-bottom-color: #3498db; color: #3498db; }
+        .tab-content { padding: 20px; display: none; }
+        .tab-content.active { display: block; }
+        .item-list { margin-top: 20px; }
+        .item { background: white; padding: 15px; margin-bottom: 10px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+        .export-section { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .export-data { background: #f8f9fa; padding: 15px; border-radius: 4px; white-space: pre-wrap; font-family: monospace; font-size: 12px; max-height: 200px; overflow: auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Emma Gardner - Simple Admin</h1>
+            <p>Manage your portfolio content. Data is saved locally and can be exported for deployment.</p>
+        </div>
+
+        <div class="export-section">
+            <h2>Export Data for Deployment</h2>
+            <button class="btn" onclick="exportData()">Generate Export Files</button>
+            <div id="exportOutput" class="export-data" style="display: none;"></div>
+        </div>
+
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('artworks')">Artworks</button>
+                <button class="tab-button" onclick="showTab('posts')">Blog Posts</button>
+                <button class="tab-button" onclick="showTab('settings')">Settings</button>
+            </div>
+
+            <div id="artworks-tab" class="tab-content active">
+                <h2>Manage Artworks</h2>
+                <form id="artworkForm">
+                    <div class="form-group">
+                        <label for="artworkTitle">Title:</label>
+                        <input type="text" id="artworkTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkDescription">Description:</label>
+                        <textarea id="artworkDescription"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkPrice">Price ($):</label>
+                        <input type="number" id="artworkPrice" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkCategory">Category:</label>
+                        <select id="artworkCategory" required>
+                            <option value="murals">Murals</option>
+                            <option value="originals">Original Paintings</option>
+                            <option value="prints">Prints</option>
+                            <option value="commissions">Commissions</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="artworkImage">Image URL:</label>
+                        <input type="url" id="artworkImage" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-group">
+                        <label><input type="checkbox" id="artworkAvailable" checked> Available for sale</label>
+                    </div>
+                    <button type="submit" class="btn">Add Artwork</button>
+                </form>
+
+                <div id="artworksList" class="item-list"></div>
+            </div>
+
+            <div id="posts-tab" class="tab-content">
+                <h2>Manage Blog Posts</h2>
+                <form id="postForm">
+                    <div class="form-group">
+                        <label for="postTitle">Title:</label>
+                        <input type="text" id="postTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="postExcerpt">Excerpt:</label>
+                        <textarea id="postExcerpt"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="postContent">Content:</label>
+                        <textarea id="postContent" style="height: 200px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Add Post</button>
+                </form>
+
+                <div id="postsList" class="item-list"></div>
+            </div>
+
+            <div id="settings-tab" class="tab-content">
+                <h2>Site Settings</h2>
+                <form id="settingsForm">
+                    <div class="form-group">
+                        <label for="artistName">Artist Name:</label>
+                        <input type="text" id="artistName" value="Emma Gardner">
+                    </div>
+                    <div class="form-group">
+                        <label for="subtitle">Subtitle:</label>
+                        <input type="text" id="subtitle" value="Fine Art — Originals & Prints">
+                    </div>
+                    <div class="form-group">
+                        <label for="currency">Currency:</label>
+                        <input type="text" id="currency" value="USD">
+                    </div>
+                    <button type="submit" class="btn">Save Settings</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple local storage data management
+        const DATA_KEY = 'emma-portfolio-data';
+
+        function getData() {
+            return JSON.parse(localStorage.getItem(DATA_KEY) || '{"artworks": [], "posts": [], "settings": {"artist": "Emma Gardner", "subtitle": "Fine Art — Originals & Prints", "currency": "USD"}}');
+        }
+
+        function saveData(data) {
+            localStorage.setItem(DATA_KEY, JSON.stringify(data));
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        // Artwork management
+        document.getElementById('artworkForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = getData();
+
+            const artwork = {
+                id: Date.now().toString(),
+                title: document.getElementById('artworkTitle').value,
+                description: document.getElementById('artworkDescription').value,
+                price: parseFloat(document.getElementById('artworkPrice').value) || 0,
+                category: document.getElementById('artworkCategory').value,
+                image: document.getElementById('artworkImage').value,
+                available: document.getElementById('artworkAvailable').checked,
+                createdAt: new Date().toISOString()
+            };
+
+            data.artworks.push(artwork);
+            saveData(data);
+            document.getElementById('artworkForm').reset();
+            renderArtworks();
+        });
+
+        function renderArtworks() {
+            const data = getData();
+            const container = document.getElementById('artworksList');
+            container.innerHTML = data.artworks.map(artwork => `
+                <div class="item">
+                    <div>
+                        <strong>${artwork.title}</strong> - ${artwork.category} - $${artwork.price}
+                        ${artwork.available ? '' : '(SOLD)'}
+                    </div>
+                    <button class="btn btn-danger" onclick="deleteArtwork('${artwork.id}')">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteArtwork(id) {
+            const data = getData();
+            data.artworks = data.artworks.filter(a => a.id !== id);
+            saveData(data);
+            renderArtworks();
+        }
+
+        // Blog post management
+        document.getElementById('postForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = getData();
+
+            const post = {
+                id: Date.now().toString(),
+                title: document.getElementById('postTitle').value,
+                excerpt: document.getElementById('postExcerpt').value,
+                content: document.getElementById('postContent').value,
+                createdAt: new Date().toISOString(),
+                slug: document.getElementById('postTitle').value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+            };
+
+            data.posts.push(post);
+            saveData(data);
+            document.getElementById('postForm').reset();
+            renderPosts();
+        });
+
+        function renderPosts() {
+            const data = getData();
+            const container = document.getElementById('postsList');
+            container.innerHTML = data.posts.map(post => `
+                <div class="item">
+                    <div>
+                        <strong>${post.title}</strong> - ${new Date(post.createdAt).toLocaleDateString()}
+                    </div>
+                    <button class="btn btn-danger" onclick="deletePost('${post.id}')">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deletePost(id) {
+            const data = getData();
+            data.posts = data.posts.filter(p => p.id !== id);
+            saveData(data);
+            renderPosts();
+        }
+
+        // Settings management
+        document.getElementById('settingsForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = getData();
+
+            data.settings = {
+                artist: document.getElementById('artistName').value,
+                subtitle: document.getElementById('subtitle').value,
+                currency: document.getElementById('currency').value
+            };
+
+            saveData(data);
+            alert('Settings saved!');
+        });
+
+        // Export functionality
+        function exportData() {
+            const data = getData();
+            const output = document.getElementById('exportOutput');
+
+            const exportText = `
+// Copy this data to your src/_data/ files:
+
+// src/_data/artworks.json:
+${JSON.stringify({artworks: data.artworks}, null, 2)}
+
+// src/_data/posts.json:
+${JSON.stringify({posts: data.posts}, null, 2)}
+
+// src/_data/site.json:
+${JSON.stringify(data.settings, null, 2)}
+            `.trim();
+
+            output.textContent = exportText;
+            output.style.display = 'block';
+        }
+
+        // Initialize
+        renderArtworks();
+        renderPosts();
+
+        // Load settings
+        const data = getData();
+        document.getElementById('artistName').value = data.settings.artist || 'Emma Gardner';
+        document.getElementById('subtitle').value = data.settings.subtitle || 'Fine Art — Originals & Prints';
+        document.getElementById('currency').value = data.settings.currency || 'USD';
+    </script>
+</body>
+</html>

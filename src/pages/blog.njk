@@ -1,0 +1,16 @@
+---
+title: Blog
+layout: layouts/base.njk
+---
+<section class="posts">
+  <h1 class="page-title">Blog</h1>
+  <ul class="postlist">
+    {% for p in posts.posts | reverse %}
+    <li><a href="/blog/{{ p.slug }}/">{{ p.title }}</a> <span class="muted">· {{ p.createdAt | date("LLL d, yyyy") }}</span></li>
+    {% endfor %}
+
+    {% if posts.posts.length == 0 %}
+    <li class="muted">No blog posts yet. Check back soon!</li>
+    {% endif %}
+  </ul>
+</section>

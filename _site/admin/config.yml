@@ -1,0 +1,35 @@
+backend:
+  name: git-gateway
+  branch: main
+
+publish_mode: simple
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+media_library:
+  name: cloudinary
+  config:
+    cloud_name: YOUR_CLOUDINARY_CLOUD_NAME
+    api_key: YOUR_CLOUDINARY_API_KEY
+    upload_preset: DECAP_UNSIGNED_PRESET
+    default_transformations:
+      - - fetch_format: auto
+          quality: auto
+
+collections:
+  - name: artworks
+    label: Artworks
+    folder: "src/artworks"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: date, label: Date, widget: datetime, required: false }
+      - { name: image, label: Image, widget: image, choose_url: true }
+      - { name: price, label: Price (USD), widget: number, value_type: int, required: false }
+      - { name: status, label: Status, widget: select, options: ["available","sold"], default: available }
+      - { name: medium, label: Medium, widget: string, required: false }
+      - { name: width, label: Width (in), widget: number, required: false }
+      - { name: height, label: Height (in), widget: number, required: false }

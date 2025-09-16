@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Content Manager</title>
+  <script>window.CMS_MANUAL_INIT = true;</script>
+  <script src="https://unpkg.com/decap-cms@^3.0.18/dist/decap-cms.js"></script>
+</head>
+<body>
+<script>
+(async function () {
+  let cfg;
+  try {
+    const r = await fetch('./config.yml', { cache: 'no-store' });
+    if (!r.ok) throw new Error('config.yml missing');
+    cfg = await r.text(); // YAML string; Decap parses it internally
+  } catch {
+    cfg = {
+      local_backend: true,
+      backend: { name: "git-gateway", branch: "main" }, // ignored locally
+      media_folder: "src/images/uploads",
+      public_folder: "/images/uploads",
+      collections: [
+        {
+          name:"artworks", label:"Artworks", folder:"src/artworks",
+          create:true, slug:"{{slug}}", format:"frontmatter", extension:"md",
+          fields:[
+            {label:"Title", name:"title", widget:"string"},
+            {label:"Date", name:"date", widget:"datetime"},
+            {label:"Status", name:"status", widget:"select", options:["available","sold"], default:"available"},
+            {label:"Price (cents)", name:"price", widget:"number", value_type:"int", min:0, default:0},
+            {label:"Medium", name:"medium", widget:"string", required:false},
+            {label:"Width (in)", name:"width", widget:"number", value_type:"float", required:false},
+            {label:"Height (in)", name:"height", widget:"number", value_type:"float", required:false},
+            {label:"Year", name:"year", widget:"number", required:false},
+            {label:"Category", name:"category", widget:"string", required:false},
+            {label:"Subcategory", name:"subcategory", widget:"string", required:false},
+            {label:"Tags", name:"tags", widget:"list", required:false},
+            {label:"Image", name:"image", widget:"image", allow_multiple:false},
+            {label:"Buy/Inquiry URL", name:"buy_url", widget:"string", required:false},
+            {label:"Body", name:"body", widget:"markdown", required:false}
+          ]
+        },
+        {
+          name:"posts", label:"Blog Posts", folder:"src/posts",
+          create:true, slug:"{{slug}}", format:"frontmatter", extension:"md",
+          fields:[
+            {label:"Title", name:"title", widget:"string"},
+            {label:"Date", name:"date", widget:"datetime"},
+            {label:"Tags", name:"tags", widget:"list", required:false},
+            {label:"Body", name:"body", widget:"markdown"}
+          ]
+        }
+      ]
+    };
+  }
+  CMS.init({ config: cfg });
+})();
+</script>
+</body>
+</html>

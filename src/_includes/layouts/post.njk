@@ -1,0 +1,9 @@
+{% extends "layouts/base.njk" %}
+{% set title = title %}
+{% block content %}
+<article class="wrap">
+  <h1>{{ title }}</h1>
+  <p class="muted">{{ date | date("LLLL d, yyyy") }}{% if tags and tags.length %} · {{ tags | join(", ") }}{% endif %}</p>
+  <div>{{ content | safe }}</div>
+</article>
+{% endblock %}

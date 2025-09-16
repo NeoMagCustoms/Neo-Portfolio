@@ -1,0 +1,101 @@
+---
+title: Original Paintings
+layout: layouts/base.njk
+permalink: /portfolio/originals/index.html
+---
+{% include "partials/back.njk" %}
+<section class="gallery">
+  <div class="grid-3">
+    {% if artworks and artworks.artworks %}
+      {% set originals = artworks.artworks | selectattr('category', 'equalto', 'originals') | list %}
+
+      {% if originals.length > 0 %}
+        {% for a in originals %}
+        <article class="card">
+          <div class="thumb">
+            {% if a.image %}
+              <img src="{{ a.image }}" alt="{{ a.title }}" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+            {% else %}
+              <img src="https://via.placeholder.com/300x400/f4f4f6/999?text={{ a.title | url_encode }}" alt="{{ a.title }}" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+            {% endif %}
+          </div>
+          <div class="meta">
+            <h3>{{ a.title }}</h3>
+            <div class="muted">{{ a.category | title }}</div>
+            {% if a.price > 0 %}<div class="price">${{ a.price }}{% if not a.available %}<span class="badge">SOLD</span>{% endif %}</div>{% endif %}
+            {% if a.description %}<p class="description">{{ a.description }}</p>{% endif %}
+          </div>
+        </article>
+        {% endfor %}
+      {% else %}
+        {# Show placeholders if no originals found #}
+        <article class="card">
+          <div class="thumb">
+            <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+1" alt="Original Painting 1" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+          </div>
+          <div class="meta">
+            <h3>Original Painting 1</h3>
+            <div class="muted">Originals</div>
+            <div class="price">$500</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb">
+            <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+2" alt="Original Painting 2" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+          </div>
+          <div class="meta">
+            <h3>Original Painting 2</h3>
+            <div class="muted">Originals</div>
+            <div class="price">$750</div>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="thumb">
+            <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+3" alt="Original Painting 3" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+          </div>
+          <div class="meta">
+            <h3>Original Painting 3</h3>
+            <div class="muted">Originals</div>
+            <div class="price">$600<span class="badge">SOLD</span></div>
+          </div>
+        </article>
+      {% endif %}
+    {% else %}
+      {# Fallback when no artwork data exists at all #}
+      <article class="card">
+        <div class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+1" alt="Original Painting 1" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+        </div>
+        <div class="meta">
+          <h3>Original Painting 1</h3>
+          <div class="muted">Originals</div>
+          <div class="price">$500</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+2" alt="Original Painting 2" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+        </div>
+        <div class="meta">
+          <h3>Original Painting 2</h3>
+          <div class="muted">Originals</div>
+          <div class="price">$750</div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb">
+          <img src="https://via.placeholder.com/300x400/f4f4f6/999?text=Original+3" alt="Original Painting 3" loading="lazy" decoding="async" sizes="(max-width:640px) 100vw, (max-width:980px) 50vw, 33vw">
+        </div>
+        <div class="meta">
+          <h3>Original Painting 3</h3>
+          <div class="muted">Originals</div>
+          <div class="price">$600<span class="badge">SOLD</span></div>
+        </div>
+      </article>
+    {% endif %}
+  </div>
+</section>

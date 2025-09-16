@@ -1,0 +1,59 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "src/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - file: "src/_data/site.json"
+        label: "Globals"
+        name: "site"
+        fields:
+          - {label: "Artist Name", name: "artist", widget: "string"}
+          - {label: "Subtitle", name: "subtitle", widget: "string", required: false}
+          - {label: "Currency", name: "currency", widget: "string", default: "USD"}
+          - label: "Social Links"
+            name: "social"
+            widget: "object"
+            fields:
+              - {label: "Instagram", name: "instagram", widget: "string", required: false}
+              - {label: "Facebook", name: "facebook", widget: "string", required: false}
+              - {label: "Pinterest", name: "pinterest", widget: "string", required: false}
+
+  - name: "artworks"
+    label: "Artworks"
+    folder: "src/artworks"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Status", name: "status", widget: "select", options: ["available", "sold"], default: "available"}
+      - {label: "Price (cents)", name: "price", widget: "number", value_type: "int", min: 0, default: 0}
+      - {label: "Medium", name: "medium", widget: "string", required: false}
+      - {label: "Width (in)", name: "width", widget: "number", value_type: "float", required: false}
+      - {label: "Height (in)", name: "height", widget: "number", value_type: "float", required: false}
+      - {label: "Year", name: "year", widget: "number", required: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Image", name: "image", widget: "image", allow_multiple: false}
+      - {label: "Buy/Inquiry URL", name: "buy_url", widget: "string", required: false}
+      - {label: "Body", name: "body", widget: "markdown", required: false}
+
+  - name: "posts"
+    label: "Blog Posts"
+    folder: "src/posts"
+    create: true
+    slug: "{{slug}}"
+    format: "frontmatter"
+    extension: "md"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}

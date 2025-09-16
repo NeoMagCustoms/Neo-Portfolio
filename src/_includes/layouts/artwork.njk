@@ -1,0 +1,19 @@
+{% extends "layouts/base.njk" %}
+{% set title = title %}
+{% block content %}
+<article class="wrap">
+  <div class="grid-3" style="grid-template-columns: 1.1fr 1fr; gap: 28px;">
+    <div>
+      {% if image %}<img src="{{ image }}" alt="{{ title }}" style="width:100%;height:auto;border:1px solid #eee;border-radius:8px">{% endif %}
+    </div>
+    <div>
+      <h1>{{ title }}</h1>
+      <p class="muted">{{ medium }}{% if year %} · {{ year }}{% endif %}</p>
+      <p><strong>{{ price | currency(site.currency) }}</strong>{% if status == "sold" %} <span class="badge">SOLD</span>{% endif %}</p>
+      {% if width and height %}<p>{{ width }} × {{ height }} in</p>{% endif %}
+      {% if buy_url %}<p><a href="{{ buy_url }}" class="btn" target="_blank" rel="noopener">Buy / Inquire</a></p>{% endif %}
+      <div>{{ content | safe }}</div>
+    </div>
+  </div>
+</article>
+{% endblock %}
