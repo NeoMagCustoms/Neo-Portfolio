@@ -3,15 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "npx @11ty/eleventy --serve --quiet",
-    "build": "npx @11ty/eleventy",
-    "dev:backend": "npm run sync && npx @11ty/eleventy --serve --quiet",
-    "build:backend": "npm run sync && npx @11ty/eleventy",
-    "sync": "node sync-data.js",
-    "backend": "cd backend && npm start",
-    "backend:dev": "cd backend && npm run dev",
-    "backend:install": "cd backend && npm install",
-    "start:all": "concurrently \"npm run backend:dev\" \"npm run dev:backend\""
+    "dev": "npx @11ty/eleventy --serve --port=8081",
+    "build": "npx @11ty/eleventy"
   },
   "devDependencies": {
     "@11ty/eleventy": "^2.0.1",

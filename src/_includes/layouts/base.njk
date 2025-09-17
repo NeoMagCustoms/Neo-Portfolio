@@ -6,21 +6,7 @@
   <title>{{ title or 'Portfolio' }}</title>
   <meta name="description" content="{{ description or (site.artist ~ ' art portfolio and blog') }}">
   <link rel="stylesheet" href="/styles.css">
-  <style>
-    /* Hide the leftmost gallery card */
-    .gallery-3 > figure:first-of-type { display: none !important; }
 
-    /* Hide ALL text under gallery thumbnails */
-    .gallery .card .meta,
-    .gallery .card .meta *,
-    .gallery .card h3,
-    .gallery .card .muted,
-    .gallery .card .price { display: none !important; }
-
-    /* tighten spacing so it's just the image */
-    .gallery .card { padding-bottom: 0 !important; }
-    .gallery .card .thumb { margin: 0 !important; }
-  </style>
 </head>
 <body>
   <aside class="social">
@@ -44,9 +30,12 @@
     </nav>
   </header>
 
-  {% if hero %}
+  {% if hero and hero.image %}
   <section class="hero" role="banner">
-    <img src="{{ hero.image }}" alt="{{ site.artist }} banner" loading="eager" decoding="async" sizes="100vw">
+    <img src="{{ hero.image | url }}" alt="Emma Gardner banner">
+  </section>
+  <section class="artist-name">
+    <h1 class="artist-title">Emma Gardner</h1>
   </section>
   {% endif %}
 

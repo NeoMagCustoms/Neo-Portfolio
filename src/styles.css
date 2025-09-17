@@ -103,3 +103,48 @@ a{color:inherit;text-decoration:none}
   margin: 20px auto 0;
   border-radius: 2px;
 }
+
+/* 3-up grid */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+/* Consistent thumbnail box, 3:4 ratio */
+.card .thumb {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #f6f6f6;
+}
+
+/* Make the image fill the box and crop */
+.card .thumb img,
+.thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Hero banner */
+.hero img { display:block; width:100%; height:auto; max-height:50vh; object-fit:cover; }
+
+/* Name below banner */
+.artist-name { text-align:center; margin: .75rem 0 1.25rem; }
+.artist-title {
+  font-family: "Old English Text MT","UnifrakturCook",serif;
+  font-size: clamp(28px, 4vw, 54px);
+  letter-spacing: .5px;
+  margin: 0;
+}
+
+/* 3-across gallery */
+.grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
+.card .thumb { display:block; width:100%; aspect-ratio: 3/4; overflow:hidden; border-radius: 12px; }
+.card .thumb img { width:100%; height:100%; object-fit: cover; display:block; }
+
+/* Hide any leftover meta text under cards (titles/prices) */
+.grid-3 .card .meta, .grid-3 .card .meta *, .grid-3 .card h3,
+.grid-3 .card .muted, .grid-3 .card .price { display:none !important; }

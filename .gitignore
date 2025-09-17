@@ -1,4 +1,15 @@
-node_modules/
+# build/output and caches
 _site/
+node_modules/
+.cache/
+
+# OS/editor noise
 .DS_Store
+Thumbs.db
+
+# env secrets (none required now, but safe)
 .env
+.env.local
+
+# DO NOT ignore any source images
+# (keep this comment as a guard)
